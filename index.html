@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The World of AI</title>
+  <style>
+    :root{--bg:#04060b;--card:#071129;--muted:#9fb0c8;--accent:#7c3aed;--glass:rgba(255,255,255,0.04)}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial;color:#e6f0ff;background:radial-gradient(ellipse at center, #051021 0%, #02030a 60%, #000 100%);overflow:auto}
+    .wrap{max-width:1200px;margin:28px auto;padding:20px;display:grid;grid-template-columns:1fr 300px;gap:20px;text-align:center}
+    h1{margin:6px 0 4px;font-size:22px}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+    .canvas{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:14px;padding:12px;border:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;min-height:640px;margin:0 auto}
+    .universe{position:relative;width:760px;height:760px}
+    .stars{position:absolute;inset:0;background:radial-gradient(circle, rgba(255,255,255,0.9) 0 1px, transparent 1px),radial-gradient(circle, rgba(255,255,255,0.6) 0 1px, transparent 1px),radial-gradient(circle, rgba(255,255,255,0.3) 0 1px, transparent 1px);background-size:140px 140px,260px 260px,360px 360px;animation:twinkle 6s infinite alternate ease-in-out;filter:blur(0.4px);border-radius:50%;pointer-events:none}
+    @keyframes twinkle{0%{opacity:0.55}50%{opacity:0.9}100%{opacity:0.45}}
+    svg{width:100%;height:100%;display:block}
+    .rotating{transform-origin:50% 50%;animation:spin 60s linear infinite}
+    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    .ring text{transform-origin:50% 50%;transform-box:fill-box;animation:text-counter-spin 60s linear infinite reverse}
+    @keyframes text-counter-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    .label{font-size:12px;fill:#e6eef9;pointer-events:none;paint-order:stroke}
+    .details{background:var(--card);border-radius:12px;padding:16px;text-align:left;overflow:auto;color:#e6f0ff;box-shadow:0 0 15px rgba(0,0,0,0.3);font-size:14px}
+    footer{color:var(--muted);font-size:12px;margin-top:10px;text-align:center}
+    @media(max-width:980px){.wrap{grid-template-columns:1fr};.canvas{min-height:520px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div>
+      <h1>The World of AI</h1>
+      <p class="lead">A visual, interactive layers from broad AI to Generative AI.</p>
+      <main class="canvas" role="main" aria-label="AI onion canvas">
+        <div class="universe" id="universe">
+          <div class="stars" aria-hidden="true"></div>
+          <svg viewBox="0 0 640 640" role="img" aria-label="AI layered onion">
+            <defs><filter id="glow"><feGaussianBlur stdDeviation="3.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+            <g class="rotating" id="rotGroup">
+              <g class="ring" data-id="Artificial Intelligence" transform="translate(320,320)"><circle r="330" fill="#0e2940" fill-opacity="0.12" stroke="#0e2940" stroke-opacity="0.18"></circle><text x="0" y="-270" class="label">Artificial Intelligence</text></g>
+              <g class="ring" data-id="Machine Learning" transform="translate(320,320)"><circle r="260" fill="#0a3a45" fill-opacity="0.12" stroke="#0a3a45" stroke-opacity="0.18"></circle><text x="120" y="-180" class="label">Machine Learning</text></g>
+              <g class="ring" data-id="Neural Networks" transform="translate(320,320)"><circle r="200" fill="#074b41" fill-opacity="0.12" stroke="#074b41" stroke-opacity="0.18"></circle><text x="0" y="-150" class="label">Neural Networks</text></g>
+              <g class="ring" data-id="Deep Learning" transform="translate(320,320)"><circle r="140" fill="#3b6f6b" fill-opacity="0.12" stroke="#3b6f6b" stroke-opacity="0.18"></circle><text x="-100" y="-70" class="label">Deep Learning</text></g>
+              <g class="ring" data-id="Generative AI" transform="translate(320,320)"><circle r="70" fill="#9bbfbe" fill-opacity="0.16" stroke="#9bbfbe" stroke-opacity="0.22"></circle><text x="0" y="0" font-size="11" class="label">Generative AI</text></g>
+              <g id="nodes" transform="translate(320,320)"><circle cx="-300" cy="-30" r="2" fill="#fff" opacity="0.9"></circle><circle cx="250" cy="120" r="1.6" fill="#e6f0ff" opacity="0.7"></circle><circle cx="-160" cy="200" r="1.2" fill="#cfe6ff" opacity="0.8"></circle><circle cx="180" cy="-180" r="1.8" fill="#fff" opacity="0.6"></circle></g>
+            </g>
+          </svg>
+        </div>
+      </main>
+    </div>
+
+    <!-- DETAILS PANEL -->
+    <div class="details" id="details">
+      <h3>Layer Info</h3>
+      <p>Hover or click a layer to fetch AI content.</p>
+    </div>
+  </div>
+
+  <footer><p>&copy; <span id="2025"></span> [WorldOfAI]. All Rights Reserved.</p></footer>
+
+  <script>
+    // UPDATE YEAR
+    document.getElementById('2025').innerText = new Date().getFullYear();
+
+    // ROTATION
+    const rot = document.getElementById('rotGroup');
+    let t = 0;
+    setInterval(()=>{ t+=0.0025; rot.style.transform=`rotate(${t*360}deg)`; },20);
+
+    // HOVER + CLICK EVENT TO FETCH CONTENT
+    const details = document.getElementById('details');
+    document.querySelectorAll('#universe .ring').forEach(r=>{
+      r.style.cursor='pointer';
+
+      r.addEventListener('mouseenter', ()=> r.querySelector('circle') && r.querySelector('circle').setAttribute('fill-opacity',0.22));
+      r.addEventListener('mouseleave', ()=> r.querySelector('circle') && r.querySelector('circle').setAttribute('fill-opacity',0.12));
+
+      r.addEventListener('click', async ()=>{
+        const layer = r.getAttribute('data-id');
+        details.innerHTML = `<h3>${layer}</h3><p>Loading AI content...</p>`;
+        try{
+          const resp = await fetch(`/api/fetchAI?layer=${encodeURIComponent(layer)}`);
+          const data = await resp.json();
+          details.innerHTML = `<h3>${layer}</h3><p>${data.text}</p>`;
+        }catch(e){
+          details.innerHTML = `<h3>${layer}</h3><p>Error fetching AI content.</p>`;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
