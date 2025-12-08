@@ -5,6 +5,6 @@
   "main": "fetchAI.js",
   "type": "module",
   "dependencies": {
-    "openai": "^4.0.0"
+    "openai": "^4.7.0"
   }
 }
