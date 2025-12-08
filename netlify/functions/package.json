@@ -1,0 +1,10 @@
+{
+  "name": "functions",
+  "version": "1.0.0",
+  "description": "Netlify functions for World of AI",
+  "main": "fetchAI.js",
+  "type": "module",
+  "dependencies": {
+    "openai": "^4.0.0"
+  }
+}
