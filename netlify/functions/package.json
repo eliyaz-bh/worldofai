@@ -1,9 +1,0 @@
-{
-  "name": "functions",
-  "version": "1.0.0",
-  "description": "Netlify functions for World of AI",
-   "type": "module",
-  "dependencies": {
-    "openai": "^4.7.0"
-  }
-}
