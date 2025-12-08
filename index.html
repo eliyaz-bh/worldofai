@@ -213,7 +213,7 @@
         const layer = r.getAttribute('data-id');
         details.innerHTML = `<h3>${layer}</h3><p>Loading AI content...</p>`;
         try{
-          const resp = await fetch(`/api/fetchAI?layer=${encodeURIComponent(layer)}`);
+          const resp = await fetch(`/.netlify/functions/fetchAI?layer=${encodeURIComponent(layer)}`);
           const data = await resp.json();
           details.innerHTML = `<h3>${layer}</h3><p>${data.text}</p>`;
         }catch(e){
@@ -224,3 +224,4 @@
   </script>
 </body>
 </html>
+
